@@ -27,4 +27,9 @@ module.exports = {
     jwtExpireAdmin: process.env.JWT_EXPIRE_ADMIN || '1d',
     saltRounds: 10, // https://github.com/kelektiv/node.bcrypt.js#to-hash-a-password
   },
+  twitter: {
+    apiKey: process.env.TWITTER_API_KEY,
+    secretKey: process.env.TWITTER_SECRET_KEY,
+    callbackUrl: process.env.TWITTER_CALLBACK_URL,
+  },
 };

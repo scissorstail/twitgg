@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const sql = require('@/storage/pg');
 const config = require('@/config');
 
@@ -10,6 +11,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const JWTStrategy = passportJWT.Strategy;
 const LocalStrategy = require('passport-local').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 // Local Strategy
 passport.use('user.local', new LocalStrategy(
@@ -79,6 +81,52 @@ passport.use('user.jwt', new JWTStrategy(
       return done(null, jwtPayload);
     } catch (e) {
       // 사용자 인증 체크 중 에러 발생 시
+      console.error(e);
+      return done(null, { error: true, state: 0, msg: 'Internal Error' }, {});
+    }
+  },
+));
+
+passport.use('user.twitter', new TwitterStrategy(
+  {
+    consumerKey: config.twitter.apiKey,
+    consumerSecret: config.twitter.secretKey,
+    callbackURL: config.twitter.callbackUrl,
+    includeEmail: true,
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      // 토큰 값 저장
+      profile.accessToken = accessToken;
+      profile.refreshToken = refreshToken;
+
+      // 공급자 설정
+      profile.provider = 'twitter';
+
+      console.log(profile);
+
+      // eslint-disable-next-line no-shadow
+      const user = await sql.begin((sql) => {
+        console.log();
+        return {
+          state: 0,
+        };
+      });
+
+      if (user.state === 0) {
+        // 비활성화된 사용자
+        return done(null, { error: true, state: -3, msg: 'Disabled user' });
+      }
+
+      // JWT 토큰 생성
+      const token = jwt.sign({ user_no: user.user_no }, config.sys.jwtSecretUser, {
+        expiresIn: config.sys.jwtExpireUser, // https://github.com/zeit/ms
+      });
+
+      // 로그인 체크 성공
+      return done(null, { token }, {});
+    } catch (e) {
+      // 로그인 확인 중 에러 발생 시
       console.error(e);
       return done(null, { error: true, state: 0, msg: 'Internal Error' }, {});
     }
