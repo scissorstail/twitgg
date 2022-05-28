@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    "git.autorefresh": true,
+    "files.eol": "\n",
+    "[javascript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    }
+  }
+}

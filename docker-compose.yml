@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=twitgg
+      - POSTGRES_USER=twitgg
+      - POSTGRES_PASSWORD=twitgg
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres/pgdata/data:/var/lib/postgresql/data
+    restart: always
+
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: ./docker.conf/Dockerfile
+    container_name: api
+    image: api
+    volumes:
+      - ./backend/api/src:/api/src
+      - /api/node_modules
+    environment:
+      - TZ=Asia/Seoul
+      - NODE_ENV=development
+    ports:
+      - 9595:9595
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
