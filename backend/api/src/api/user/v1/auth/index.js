@@ -17,8 +17,8 @@ async function login(req, res) {
 async function loginTwitter(req, res) {
   // 로그인 실패 시
   if (req.user.error) {
-    delete req.user.error;
-    return res.redirect(`${config.app.webUrl}/social-redirect/twitter?success=false&message=${encodeURIComponent(req.user.msg)}`);
+    const { state } = req.user;
+    return res.redirect(`${config.app.webUrl}/social-redirect/twitter?success=false&state=${state}`);
   }
 
   // 로그인 성공 시
@@ -28,8 +28,8 @@ async function loginTwitter(req, res) {
 
 module.exports = (app) => {
   // twitter
-  app.get('/login/twitter', passport.authenticate('user.twitter', { scope: ['tweet.read', 'tweet.write', 'users.read'] })); // 트위터 로그인
-  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { scope: ['tweet.read', 'tweet.write', 'users.read'] }), loginTwitter); // 트위터 로그인 콜백
+  app.get('/login/twitter', passport.authenticate('user.twitter', { session: false, scope: ['tweet.read', 'tweet.write', 'users.read'] })); // 트위터 로그인
+  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { session: false, failureRedirect: `${config.app.webUrl}/social-redirect/twitter?success=false&state=${-4}` }), loginTwitter); // 트위터 로그인 콜백
 
   // local
   app.post('/login', [passport.authenticate('user.local', { session: false })], login);
