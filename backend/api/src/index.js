@@ -3,14 +3,18 @@ require('module-alias/register');
 const moment = require('@/utils/moment');
 require('log-timestamp')(() => `[${moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss')}]`); // console에 시간정보 자동추가
 
+const config = require('@/config');
+
 const express = require('express');
 require('@/middlewares/express-group');
 const compression = require('compression');
 const passport = require('passport');
 const cors = require('cors');
 const session = require('express-session');
+const connectRedis = require('connect-redis');
+const redisClient = require('@/storage/redis');
 
-const config = require('@/config');
+const RedisStore = connectRedis(session);
 
 const app = express();
 app.use(cors()); // CORS 해제
@@ -18,9 +22,13 @@ app.options('*', cors()); // CORS Pre-Flight 활성화
 app.use(express.urlencoded({ extended: true, limit: '1024mb' })); // nginx 설정 필요
 app.use(express.json({ limit: '1024mb' }));
 app.use(session({
-  secret: config.auth.jwtSecretUser,
-  resave: true,
+  resave: false,
   saveUninitialized: false,
+  secret: config.auth.jwtSecretUser,
+  store: new RedisStore({
+    client: redisClient,
+    logErrors: false,
+  }),
 }));
 app.use(passport.initialize());
 app.use(compression()); // 응답압축

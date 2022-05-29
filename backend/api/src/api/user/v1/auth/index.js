@@ -28,8 +28,8 @@ async function loginTwitter(req, res) {
 
 module.exports = (app) => {
   // twitter
-  app.get('/login/twitter', passport.authenticate('user.twitter', { session: false, scope: ['tweet.read', 'tweet.write', 'users.read'] })); // 트위터 로그인
-  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { session: false, scope: ['tweet.read', 'tweet.write', 'users.read'] }), loginTwitter); // 트위터 로그인 콜백
+  app.get('/login/twitter', passport.authenticate('user.twitter', { scope: ['tweet.read', 'tweet.write', 'users.read'] })); // 트위터 로그인
+  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { scope: ['tweet.read', 'tweet.write', 'users.read'] }), loginTwitter); // 트위터 로그인 콜백
 
   // local
   app.post('/login', [passport.authenticate('user.local', { session: false })], login);
