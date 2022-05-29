@@ -53,7 +53,12 @@ app.get('/', (req, res) => {
 // API 라우트
 app.group('/', require('@/api'));
 
-// 서버 시작
-app.listen(config.app.port, config.app.host, () => {
-  console.log(`Server:${process.env.NODE_APP_INSTANCE || 0} Running on ${config.app.host}:${config.app.port} By ${process.env.NODE_ENV} Mode`);
-});
+(async () => {
+  // Redis 연결
+  await redisClient.connect();
+
+  // 서버 시작
+  app.listen(config.app.port, config.app.host, () => {
+    console.log(`Server:${process.env.NODE_APP_INSTANCE || 0} Running on ${config.app.host}:${config.app.port} By ${process.env.NODE_ENV} Mode`);
+  });
+})();
