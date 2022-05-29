@@ -91,18 +91,16 @@ passport.use('user.twitter', new TwitterStrategy(
   {
     clientID: config.twitter.clientId,
     clientSecret: config.twitter.clientSecret,
-    callbackURL: config.twitter.callbackUrl
+    callbackURL: config.twitter.callbackUrl,
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       // 토큰 값 저장
       profile.accessToken = accessToken;
       profile.refreshToken = refreshToken;
-      
-      console.log(profile)
 
       // eslint-disable-next-line no-shadow
-      const user = await sql.begin(async (sql) => {
+      const userInfo = await sql.begin(async (sql) => {
         // 기존에 존재하는 유저인지 확인
         const [user] = await sql`
         SELECT
@@ -114,10 +112,14 @@ passport.use('user.twitter', new TwitterStrategy(
           AND (user_provider_info ->> 'id') = (${profile.id})::text
         `;
 
-        const userPw = await bcrypt.hash(profile._raw + config.auth.jwtSecretUser, config.auth.saltRounds);
+        const userPw = await bcrypt.hash(
+          // eslint-disable-next-line no-underscore-dangle
+          profile._raw + config.auth.jwtSecretUser,
+          config.auth.saltRounds,
+        );
         const userName = profile.displayName || null;
 
-        if(user) {
+        if (user) {
           // 기존에 존재하는 유저면 유저정보 업데이트
           const [updatedUser] = await sql`
           UPDATE users SET
@@ -130,37 +132,37 @@ passport.use('user.twitter', new TwitterStrategy(
           RETURNING user_no, state
           `;
           return updatedUser;
-        } else {
-          // 새 유저일 경우 회원가입 처리 
-          const [newUser] = await sql`
-          INSERT INTO users (
-            user_id,
-            user_pw,
-            user_name,
-            user_provider,
-            user_provider_info,
-            state
-          ) VALUES (
-            ${profile.id},
-            ${userPw},
-            ${userName},
-            'twitter',
-            ${profile},
-            1
-          ) RETURNING user_no, state
-          `;
-
-          return newUser
         }
+
+        // 새 유저일 경우 회원가입 처리
+        const [newUser] = await sql`
+        INSERT INTO users (
+          user_id,
+          user_pw,
+          user_name,
+          user_provider,
+          user_provider_info,
+          state
+        ) VALUES (
+          ${profile.id},
+          ${userPw},
+          ${userName},
+          'twitter',
+          ${profile},
+          1
+        ) RETURNING user_no, state
+        `;
+
+        return newUser;
       });
 
-      if (user.state === 0) {
+      if (userInfo.state === 0) {
         // 비활성화된 사용자
         return done(null, { error: true, state: -3, msg: 'Disabled user' });
       }
 
       // JWT 토큰 생성
-      const token = jwt.sign({ user_no: user.user_no }, config.auth.jwtSecretUser, {
+      const token = jwt.sign({ user_no: userInfo.user_no }, config.auth.jwtSecretUser, {
         expiresIn: config.auth.jwtExpireUser, // https://github.com/zeit/ms
       });
 
