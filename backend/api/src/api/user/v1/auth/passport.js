@@ -11,13 +11,13 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const JWTStrategy = passportJWT.Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const TwitterStrategy = require('passport-twitter').Strategy;
+const TwitterStrategy = require('@superfaceai/passport-twitter-oauth2').Strategy;
 
 // Local Strategy
 passport.use('user.local', new LocalStrategy(
   {
-    usernameField: 'userId',
-    passwordField: 'userPw',
+    usernameField: 'user_id',
+    passwordField: 'user_pw',
     session: false, // 세션 사용안함
   },
   async (userId, userPw, done) => {
@@ -89,28 +89,69 @@ passport.use('user.jwt', new JWTStrategy(
 
 passport.use('user.twitter', new TwitterStrategy(
   {
-    consumerKey: config.twitter.apiKey,
-    consumerSecret: config.twitter.secretKey,
-    callbackURL: config.twitter.callbackUrl,
-    includeEmail: true,
+    clientID: config.twitter.clientId,
+    clientSecret: config.twitter.clientSecret,
+    callbackURL: config.twitter.callbackUrl
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       // 토큰 값 저장
       profile.accessToken = accessToken;
       profile.refreshToken = refreshToken;
-
-      // 공급자 설정
-      profile.provider = 'twitter';
-
-      console.log(profile);
+      
+      console.log(profile)
 
       // eslint-disable-next-line no-shadow
-      const user = await sql.begin((sql) => {
-        console.log();
-        return {
-          state: 0,
-        };
+      const user = await sql.begin(async (sql) => {
+        // 기존에 존재하는 유저인지 확인
+        const [user] = await sql`
+        SELECT
+          user_no,
+          state
+        FROM users
+        WHERE
+          user_provider = 'twitter'
+          AND (user_provider_info ->> 'id') = (${profile.id})::text
+        `;
+
+        const userPw = await bcrypt.hash(profile._raw + config.auth.jwtSecretUser, config.auth.saltRounds);
+        const userName = profile.displayName || null;
+
+        if(user) {
+          // 기존에 존재하는 유저면 유저정보 업데이트
+          const [updatedUser] = await sql`
+          UPDATE users SET
+            user_pw = ${userPw},
+            user_name = ${userName},
+            user_provider_info = ${profile},
+            updated_dt = now()
+          WHERE
+            user_no = ${user.user_no}
+          RETURNING user_no, state
+          `;
+          return updatedUser;
+        } else {
+          // 새 유저일 경우 회원가입 처리 
+          const [newUser] = await sql`
+          INSERT INTO users (
+            user_id,
+            user_pw,
+            user_name,
+            user_provider,
+            user_provider_info,
+            state
+          ) VALUES (
+            ${profile.id},
+            ${userPw},
+            ${userName},
+            'twitter',
+            ${profile},
+            1
+          ) RETURNING user_no, state
+          `;
+
+          return newUser
+        }
       });
 
       if (user.state === 0) {
@@ -119,8 +160,8 @@ passport.use('user.twitter', new TwitterStrategy(
       }
 
       // JWT 토큰 생성
-      const token = jwt.sign({ user_no: user.user_no }, config.sys.jwtSecretUser, {
-        expiresIn: config.sys.jwtExpireUser, // https://github.com/zeit/ms
+      const token = jwt.sign({ user_no: user.user_no }, config.auth.jwtSecretUser, {
+        expiresIn: config.auth.jwtExpireUser, // https://github.com/zeit/ms
       });
 
       // 로그인 체크 성공

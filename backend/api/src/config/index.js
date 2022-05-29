@@ -9,6 +9,7 @@ module.exports = {
   app: {
     host: process.env.APP_HOST || '0.0.0.0',
     port: process.env.APP_PORT || '9595',
+    webUrl: process.env.WEB_URL || 'http://localhost:8080',
   },
   pg: {
     host: process.env.PG_HOST, // Postgres ip address[s] or domain name[s]
@@ -28,8 +29,8 @@ module.exports = {
     saltRounds: 10, // https://github.com/kelektiv/node.bcrypt.js#to-hash-a-password
   },
   twitter: {
-    apiKey: process.env.TWITTER_API_KEY,
-    secretKey: process.env.TWITTER_SECRET_KEY,
+    clientId:  process.env.TWITTER_CLIENT_ID,
+    clientSecret: process.env.TWITTER_CLIENT_SECRET,
     callbackUrl: process.env.TWITTER_CALLBACK_URL,
   },
 };

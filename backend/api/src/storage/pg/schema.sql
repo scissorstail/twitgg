@@ -13,5 +13,6 @@ CREATE TABLE public.users (
 	user_provider_info jsonb NOT NULL DEFAULT '{}'::jsonb,
 	created_dt timestamptz NOT NULL DEFAULT now(),
 	updated_dt timestamptz NULL,
-	state int4 NULL
+	state int4 NULL,
+	CONSTRAINT users_pk PRIMARY KEY (user_no)
 );

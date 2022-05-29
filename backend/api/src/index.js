@@ -8,6 +8,7 @@ require('@/middlewares/express-group');
 const compression = require('compression');
 const passport = require('passport');
 const cors = require('cors');
+const session = require('express-session');
 
 const config = require('@/config');
 
@@ -16,6 +17,11 @@ app.use(cors()); // CORS 해제
 app.options('*', cors()); // CORS Pre-Flight 활성화
 app.use(express.urlencoded({ extended: true, limit: '1024mb' })); // nginx 설정 필요
 app.use(express.json({ limit: '1024mb' }));
+app.use(session({
+  secret: config.auth.jwtSecretUser,
+  resave: true,
+  saveUninitialized: false,
+}));
 app.use(passport.initialize());
 app.use(compression()); // 응답압축
 app.disable('x-powered-by'); // x-powered-by 헤더 비활성화
@@ -27,7 +33,7 @@ app.all('*', (req, res, next) => {
     return next();
   }
 
-  console.log(`Req: ${req.method} ${req.originalUrl}`);
+  console.log(`Server:${process.env.NODE_APP_INSTANCE || 0} ${req.method} ${req.originalUrl}`);
   return next();
 });
 
