@@ -17,7 +17,19 @@ services:
     volumes:
       - ./data/postgres/pgdata/data:/var/lib/postgresql/data
     restart: always
-
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    hostname: redis
+    command: redis-server --port 6379
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    restart: always
   api:
     build:
       context: ./backend/api
@@ -35,4 +47,5 @@ services:
     links:
       - postgres:postgres
     depends_on:
+      - redis
       - postgres
