@@ -10,6 +10,7 @@ require('@/middlewares/express-group');
 const compression = require('compression');
 const passport = require('passport');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const connectRedis = require('connect-redis');
 const redisClient = require('@/storage/redis');
@@ -21,6 +22,7 @@ app.use(cors()); // CORS 해제
 app.options('*', cors()); // CORS Pre-Flight 활성화
 app.use(express.urlencoded({ extended: true, limit: '1024mb' })); // nginx 설정 필요
 app.use(express.json({ limit: '1024mb' }));
+app.use(cookieParser());
 app.use(session({
   resave: false,
   saveUninitialized: false,

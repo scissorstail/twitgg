@@ -30,6 +30,7 @@ module.exports = {
     jwtExpireUser: process.env.JWT_EXPIRE_USER || '30d',
     jwtSecretAdmin: process.env.JWT_SECRET_ADMIN || '',
     jwtExpireAdmin: process.env.JWT_EXPIRE_ADMIN || '1d',
+    jwtTokenName: process.env.JWT_TOKEN_NAME || '',
     saltRounds: 10, // https://github.com/kelektiv/node.bcrypt.js#to-hash-a-password
   },
   twitter: {

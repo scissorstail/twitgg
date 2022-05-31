@@ -11,6 +11,9 @@ async function login(req, res) {
 
   // 로그인 성공 시
   const { token } = req.user;
+  res.cookie(config.auth.jwtTokenName, token, {
+    httpOnly: true,
+  });
   return res.json({ token });
 }
 
@@ -23,6 +26,9 @@ async function loginTwitter(req, res) {
 
   // 로그인 성공 시
   const { token } = req.user;
+  res.cookie(config.auth.jwtTokenName, token, {
+    httpOnly: true,
+  });
   return res.redirect(`${config.app.webUrl}/social-redirect/twitter?success=true&token=${encodeURIComponent(Buffer.from(token).toString('base64'))}`);
 }
 
