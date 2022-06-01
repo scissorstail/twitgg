@@ -1,7 +1,6 @@
 <script setup>
-import { useUser, resetUser } from '@/composables/useUser'
-const user = await useUser()
 const config = useRuntimeConfig()
+const user = await useUser()
 
 const login = () => {
   window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
@@ -27,6 +26,11 @@ const logout = () => {
       <button @click="login">
         트위터 로그인
       </button>
+    </div>
+    <div v-if="user.isUser">
+      <NuxtLink to="/setting">
+        세팅
+      </NuxtLink>
     </div>
   </div>
 </template>
