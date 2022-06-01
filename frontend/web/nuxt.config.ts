@@ -8,5 +8,6 @@ export default defineNuxtConfig({
       apiUrl: '',
       tokenName: ''
     }
-  }
+  },
+  modules: ['@nuxtjs/tailwindcss']
 })

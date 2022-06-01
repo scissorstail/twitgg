@@ -31,5 +31,9 @@ function onResponse (ctx) {
   if (response.status === 401) {
     const token = useCookie(config.public.tokenName)
     token.value = undefined
+
+    if (process.client) {
+      window.location.reload()
+    }
   }
 }
