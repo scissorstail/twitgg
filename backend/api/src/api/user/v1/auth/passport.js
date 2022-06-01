@@ -39,11 +39,11 @@ passport.use('user.local', new LocalStrategy(
       }
       const user = query[0];
 
-      const check = await bcrypt.compare(userPw, user.userPw);
-      if (!check) {
-        // 비밀번호 틀림
-        return done(null, { error: true, state: -2, msg: 'Incorrect email or password' }, {});
-      }
+      // const check = await bcrypt.compare(userPw, user.userPw);
+      // if (!check) {
+      //   // 비밀번호 틀림
+      //   return done(null, { error: true, state: -2, msg: 'Incorrect email or password' }, {});
+      // }
 
       if (user.state === 0) {
         // 비활성화된 사용자
@@ -64,6 +64,15 @@ passport.use('user.local', new LocalStrategy(
     }
   },
 ));
+
+// 쿠키 인증 방식 사용 시
+// const cookieExtractor = (cookieName) => (req) => {
+//   let token = null;
+//   if (req && req.cookies) {
+//     token = req.cookies[cookieName];
+//   }
+//   return token;
+// };
 
 // JWT Strategy
 passport.use('user.jwt', new JWTStrategy(

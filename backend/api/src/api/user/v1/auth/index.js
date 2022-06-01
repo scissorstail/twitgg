@@ -11,9 +11,7 @@ async function login(req, res) {
 
   // 로그인 성공 시
   const { token } = req.user;
-  res.cookie(config.auth.jwtTokenName, token, {
-    httpOnly: true,
-  });
+  res.cookie(config.auth.jwtTokenName, token);
   return res.json({ token });
 }
 
@@ -21,15 +19,13 @@ async function loginTwitter(req, res) {
   // 로그인 실패 시
   if (req.user.error) {
     const { state } = req.user;
-    return res.redirect(`${config.app.webUrl}/social-redirect/twitter?success=false&state=${state}`);
+    return res.redirect(`${config.app.webUrl}?success=false&state=${state}`);
   }
 
   // 로그인 성공 시
   const { token } = req.user;
-  res.cookie(config.auth.jwtTokenName, token, {
-    httpOnly: true,
-  });
-  return res.redirect(`${config.app.webUrl}/social-redirect/twitter?success=true&token=${encodeURIComponent(Buffer.from(token).toString('base64'))}`);
+  res.cookie(config.auth.jwtTokenName, token);
+  return res.redirect(`${config.app.webUrl}`);
 }
 
 module.exports = (app) => {
