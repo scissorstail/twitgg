@@ -8,6 +8,7 @@ RUN npm install -g pm2
 RUN npm install
 
 COPY . /api
-EXPOSE 9595
+RUN chown -R node:node ./*
+
 CMD [ "pm2-runtime", "/api/ecosystem.config.js" ]
 

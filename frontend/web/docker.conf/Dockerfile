@@ -9,5 +9,7 @@ COPY .env .env
 
 RUN npm install
 
-VOLUME '/web'
+RUN chown -R node:node ./*
+
+# VOLUME '/web'
 CMD ["npm", "run", "dev"]
