@@ -37,7 +37,7 @@ services:
     container_name: api
     image: api
     volumes:
-      - ./backend/api/src:/api/src
+      - ./backend/api:/api
       - /api/node_modules
     environment:
       - TZ=Asia/Seoul
@@ -49,3 +49,19 @@ services:
     depends_on:
       - redis
       - postgres
+  
+  web:
+    build:
+      context: ./frontend/web
+      dockerfile: ./docker.conf/Dockerfile
+    container_name: web
+    image: web
+    volumes:
+      - ./frontend/web:/web
+      - /web/node_modules
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
