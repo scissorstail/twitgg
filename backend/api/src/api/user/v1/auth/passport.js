@@ -11,7 +11,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const JWTStrategy = passportJWT.Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const TwitterStrategy = require('@superfaceai/passport-twitter-oauth2').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 // Local Strategy
 passport.use('user.local', new LocalStrategy(
@@ -98,15 +98,17 @@ passport.use('user.jwt', new JWTStrategy(
 
 passport.use('user.twitter', new TwitterStrategy(
   {
-    clientID: config.twitter.clientId,
-    clientSecret: config.twitter.clientSecret,
+    consumerKey: config.twitter.clientId,
+    consumerSecret: config.twitter.clientSecret,
     callbackURL: config.twitter.callbackUrl,
   },
-  async (accessToken, refreshToken, profile, done) => {
+  async (accessToken, tokenSecret, profile, done) => {
     try {
       // 토큰 값 저장
       profile.accessToken = accessToken;
-      profile.refreshToken = refreshToken;
+      profile.tokenSecret = tokenSecret;
+
+      console.log(profile);
 
       // eslint-disable-next-line no-shadow
       const userInfo = await sql.begin(async (sql) => {
@@ -126,14 +128,15 @@ passport.use('user.twitter', new TwitterStrategy(
           profile._raw + config.auth.jwtSecretUser,
           config.auth.saltRounds,
         );
-        const userName = profile.displayName || null;
+        const userNick = profile.displayName || null;
 
         if (user) {
           // 기존에 존재하는 유저면 유저정보 업데이트
           const [updatedUser] = await sql`
           UPDATE users SET
             user_pw = ${userPw},
-            user_name = ${userName},
+            user_name = ${profile.username},
+            user_nick = ${userNick},
             user_provider_info = ${profile},
             updated_dt = now()
           WHERE
@@ -149,13 +152,15 @@ passport.use('user.twitter', new TwitterStrategy(
           user_id,
           user_pw,
           user_name,
+          user_nick,
           user_provider,
           user_provider_info,
           state
         ) VALUES (
           ${profile.id},
           ${userPw},
-          ${userName},
+          ${profile.username},
+          ${userNick},
           'twitter',
           ${profile},
           1

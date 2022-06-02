@@ -22,7 +22,6 @@
     "nodemon": "^2.0.16"
   },
   "dependencies": {
-    "@superfaceai/passport-twitter-oauth2": "^1.0.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
