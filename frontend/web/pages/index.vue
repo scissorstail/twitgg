@@ -18,48 +18,9 @@ const logout = () => {
 <template>
   <div>
     <div class="container max-w-2xl mx-auto p-5">
-      <div class="navbar bg-base-100 mb-2">
-        <div class="navbar-start">
-          <button class="btn btn-ghost normal-case text-xl" @click="reload">
-            트친리뷰
-            <div class="badge badge-warning ml-1">
-              beta
-            </div>
-          </button>
-        </div>
+      <main-header />
 
-        <div class="navbar-end">
-          <template v-if="user.isUser">
-            <div class="dropdown dropdown-end">
-              <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                <div class="w-10 rounded-full">
-                  <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-                </div>
-              </label>
-              <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li>
-                  <NuxtLink :to="`/${user.user_id}`">
-                    프로필
-                  </NuxtLink>
-                </li>
-                <li>
-                  <NuxtLink to="/setting">
-                    설정
-                  </NuxtLink>
-                </li>
-                <li><a @click="logout">로그아웃</a></li>
-              </ul>
-            </div>
-          </template>
-          <template v-else>
-            <button class="btn btn-info text-white" @click="login">
-              로그인
-            </button>
-          </template>
-        </div>
-      </div>
-
-      <div class="divider mb-5">
+      <!-- <div class="divider mb-5">
         검색하기
       </div>
 
@@ -73,7 +34,7 @@ const logout = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="divider mb-5">
         최근에 리뷰 됨
@@ -92,7 +53,7 @@ const logout = () => {
                 @nameEO
               </div>
               <div class="text-base-content/70 text-sm">
-                3개의 리뷰 - <span class="text-blue-500">매우 긍정적</span>
+                3개의 리뷰
               </div>
             </div>
           </div>
@@ -112,7 +73,7 @@ const logout = () => {
                 @nameEO
               </div>
               <div class="text-base-content/70 text-sm">
-                3개의 리뷰 - <span class="text-red-500">대체로 부정적</span>
+                3개의 리뷰
               </div>
             </div>
           </div>
