@@ -3,8 +3,9 @@ module.exports = async ({ sql, params }) => {
   const query = await sql`
   SELECT
     user_no
-    , user_id
     , user_name
+    , user_nick
+    , user_provider_info -> 'photos' -> 0 ->> 'value' AS user_profile_image_url
   FROM
     users
   WHERE
