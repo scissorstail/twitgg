@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig()
-const user = await useUser()
 const route = useRoute()
+const user = await useUser()
 
 const home = () => {
   if (route.path === '/') {
@@ -36,20 +36,20 @@ const logout = () => {
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
-              <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
+              <img :src="user.user_profile_image_url">
             </div>
           </label>
           <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
             <li>
-              <NuxtLink :to="`/${user.user_id}`">
+              <NuxtLink :to="`/${user.user_name}`">
                 프로필
               </NuxtLink>
             </li>
-            <li>
+            <!-- <li>
               <NuxtLink to="/setting">
                 설정
               </NuxtLink>
-            </li>
+            </li> -->
             <li><a @click="logout">로그아웃</a></li>
           </ul>
         </div>
