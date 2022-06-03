@@ -1,26 +1,11 @@
 <script setup>
-const config = useRuntimeConfig()
-const user = await useUser()
-
-const reload = () => {
-  window.location.reload()
-}
-
-const login = () => {
-  window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
-}
-
-const logout = () => {
-  resetUser()
-}
 </script>
 
 <template>
-  <div>
-    <div class="container max-w-2xl mx-auto p-5">
-      <main-header />
+  <div class="container max-w-2xl mx-auto p-5">
+    <main-header />
 
-      <!-- <div class="divider mb-5">
+    <!-- <div class="divider mb-5">
         검색하기
       </div>
 
@@ -36,12 +21,12 @@ const logout = () => {
         </div>
       </div> -->
 
-      <div class="divider mb-5">
+    <!-- <div class="divider mb-5">
         최근에 리뷰 됨
       </div>
 
-      <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-        <NuxtLink to="/test">
+      <NuxtLink to="/test">
+        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
           <div class="flex items-center space-x-2">
             <div class="avatar">
               <div class="w-24 rounded-full">
@@ -57,11 +42,11 @@ const logout = () => {
               </div>
             </div>
           </div>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
 
-      <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-        <NuxtLink to="/test">
+      <NuxtLink to="/test">
+        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
           <div class="flex items-center space-x-2">
             <div class="avatar">
               <div class="w-24 rounded-full">
@@ -77,11 +62,11 @@ const logout = () => {
               </div>
             </div>
           </div>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
 
-      <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-        <NuxtLink to="/test">
+      <NuxtLink to="/test">
+        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
           <div class="flex items-center space-x-2">
             <div class="avatar">
               <div class="w-24 rounded-full">
@@ -97,11 +82,11 @@ const logout = () => {
               </div>
             </div>
           </div>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
 
-      <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-        <NuxtLink to="/test">
+      <NuxtLink to="/test">
+        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
           <div class="flex items-center space-x-2">
             <div class="avatar">
               <div class="w-24 rounded-full">
@@ -117,11 +102,11 @@ const logout = () => {
               </div>
             </div>
           </div>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
 
-      <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-        <NuxtLink to="/test">
+      <NuxtLink to="/test">
+        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
           <div class="flex items-center space-x-2">
             <div class="avatar">
               <div class="w-24 rounded-full">
@@ -137,8 +122,7 @@ const logout = () => {
               </div>
             </div>
           </div>
-        </NuxtLink>
-      </div>
-    </div>
+        </div>
+      </NuxtLink> -->
   </div>
 </template>
