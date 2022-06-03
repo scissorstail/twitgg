@@ -1,39 +1,26 @@
 export const useApi = (url, options) => {
   const config = useRuntimeConfig()
-
-  const headers = {
-    'X-Requested-With': 'XMLHttpRequest',
-    Accept: 'application/json'
-  }
-
-  return useFetch(url, {
-    baseURL: config.public.apiUrl,
-    headers,
-    onRequest,
-    onResponse,
-    ...options
-  })
-}
-
-function onRequest (ctx) {
-  const config = useRuntimeConfig()
   const token = useCookie(config.public.tokenName)
 
-  if (token.value) {
-    ctx.headers.Authorization = `Bearer ${token}`
-  }
-}
+  return $fetch(url, {
+    baseURL: config.public.apiUrl,
+    headers: {},
+    onRequest: (ctx) => {
+      if (token.value) {
+        ctx.options.headers.Authorization = `Bearer ${token.value}`
+      }
+    },
+    onResponse: (ctx) => {
+      if (token.value) {
+        if (ctx.response.status === 401) {
+          token.value = undefined
 
-function onResponse (ctx) {
-  const config = useRuntimeConfig()
-  const { response } = ctx
-
-  if (response.status === 401) {
-    const token = useCookie(config.public.tokenName)
-    token.value = undefined
-
-    if (process.client) {
-      window.location.reload()
-    }
-  }
+          if (process.client) {
+            window.location.reload()
+          }
+        }
+      }
+    },
+    ...options
+  })
 }
