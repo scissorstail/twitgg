@@ -1,5 +1,5 @@
 <script setup>
-import reviewCountToInfo from '@/utils/review-count-to-info'
+import { reviewCountToInfo, reviewInfoMapColor } from '@/utils/review-info'
 
 const props = defineProps({
   info: {
@@ -11,12 +11,6 @@ const props = defineProps({
 const reviewRecentInfo = reviewCountToInfo(props.info.count_positive_recent, props.info.count_total_recent)
 const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count_total)
 
-const mapColor = {
-  positive: 'text-red-500',
-  negative: 'text-blue-500',
-  mixed: 'text-yellow-500',
-  no_reviews: 'text-gray-500'
-}
 </script>
 
 <template>
@@ -40,8 +34,8 @@ const mapColor = {
             <span class="mr-3">최근 리뷰:</span>
           </div>
           <div class="flex flex-1 justify-start">
-            <span :class="mapColor[reviewRecentInfo.status]">{{ reviewRecentInfo.text }}</span>
-            <span class="ml-1" :class="mapColor[reviewRecentInfo.status]">({{ props.info.count_total_recent }})</span>
+            <span :class="reviewInfoMapColor[reviewRecentInfo.status]">{{ reviewRecentInfo.text }}</span>
+            <span class="ml-1" :class="reviewInfoMapColor[reviewRecentInfo.status]">({{ props.info.count_total_recent }})</span>
           </div>
         </div>
         <div class="flex text-base-content/70 text-sm">
@@ -49,8 +43,8 @@ const mapColor = {
             <span class="mr-3">모든 리뷰:</span>
           </div>
           <div class="flex flex-1 justify-start">
-            <span :class="mapColor[reviewInfo.status]">{{ reviewInfo.text }}</span>
-            <span class="ml-1" :class="mapColor[reviewInfo.status]">({{ props.info.count_total }})</span>
+            <span :class="reviewInfoMapColor[reviewInfo.status]">{{ reviewInfo.text }}</span>
+            <span class="ml-1" :class="reviewInfoMapColor[reviewInfo.status]">({{ props.info.count_total }})</span>
           </div>
         </div>
       </div>

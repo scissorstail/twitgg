@@ -1,4 +1,4 @@
-export default (positiveCount, totalCount) => {
+export const reviewCountToInfo = (positiveCount, totalCount) => {
   if (totalCount < 10) {
     return { text: '없거나 적음', status: 'no_reviews' }
   }
@@ -32,4 +32,11 @@ export default (positiveCount, totalCount) => {
   } else {
     return { text: '매우 부정적', status: 'negative' }
   }
+}
+
+export const reviewInfoMapColor = {
+  positive: 'text-red-500',
+  negative: 'text-blue-500',
+  mixed: 'text-yellow-500',
+  no_reviews: 'text-gray-500'
 }
