@@ -1,4 +1,11 @@
 <script setup>
+const { query: recentlyReviewedList } = await useApi('/user/v1/users/recently-reviewed', {
+  params: {
+    offset: 0,
+    limit: 10
+  }
+})
+
 </script>
 
 <template>
@@ -21,108 +28,12 @@
         </div>
       </div> -->
 
-    <!-- <div class="divider mb-5">
-        최근에 리뷰 됨
-      </div>
+    <div class="divider mb-5">
+      최근에 리뷰 됨
+    </div>
 
-      <NuxtLink to="/test">
-        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-          <div class="flex items-center space-x-2">
-            <div class="avatar">
-              <div class="w-24 rounded-full">
-                <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-              </div>
-            </div>
-            <div>
-              <div class="text-lg font-extrabold">
-                @nameEO
-              </div>
-              <div class="text-base-content/70 text-sm">
-                3개의 리뷰
-              </div>
-            </div>
-          </div>
-        </div>
-      </NuxtLink>
-
-      <NuxtLink to="/test">
-        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-          <div class="flex items-center space-x-2">
-            <div class="avatar">
-              <div class="w-24 rounded-full">
-                <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-              </div>
-            </div>
-            <div>
-              <div class="text-lg font-extrabold">
-                @nameEO
-              </div>
-              <div class="text-base-content/70 text-sm">
-                3개의 리뷰
-              </div>
-            </div>
-          </div>
-        </div>
-      </NuxtLink>
-
-      <NuxtLink to="/test">
-        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-          <div class="flex items-center space-x-2">
-            <div class="avatar">
-              <div class="w-24 rounded-full">
-                <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-              </div>
-            </div>
-            <div>
-              <div class="text-lg font-extrabold">
-                @nameEO
-              </div>
-              <div class="text-base-content/70 text-sm">
-                3개의 리뷰
-              </div>
-            </div>
-          </div>
-        </div>
-      </NuxtLink>
-
-      <NuxtLink to="/test">
-        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-          <div class="flex items-center space-x-2">
-            <div class="avatar">
-              <div class="w-24 rounded-full">
-                <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-              </div>
-            </div>
-            <div>
-              <div class="text-lg font-extrabold">
-                @nameEO
-              </div>
-              <div class="text-base-content/70 text-sm">
-                3개의 리뷰
-              </div>
-            </div>
-          </div>
-        </div>
-      </NuxtLink>
-
-      <NuxtLink to="/test">
-        <div class="card ring-1 ring-black/5 p-3 mb-4 bg-base-100 hover:bg-base-200">
-          <div class="flex items-center space-x-2">
-            <div class="avatar">
-              <div class="w-24 rounded-full">
-                <img src="https://pbs.twimg.com/profile_images/1481307075326394378/hLxEMdIw.png">
-              </div>
-            </div>
-            <div>
-              <div class="text-lg font-extrabold">
-                @nameEO
-              </div>
-              <div class="text-base-content/70 text-sm">
-                3개의 리뷰
-              </div>
-            </div>
-          </div>
-        </div>
-      </NuxtLink> -->
+    <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.rv_no" :to="`/${recentlyReviewed.user_name}`">
+      <index-profile-card :info="recentlyReviewed" />
+    </NuxtLink>
   </div>
 </template>
