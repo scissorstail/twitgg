@@ -33,7 +33,7 @@ const { query: recentlyReviewedList } = await useApi('/user/v1/users/recently-re
     </div>
 
     <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.rv_no" :to="`/${recentlyReviewed.user_name}`">
-      <index-profile-card :info="recentlyReviewed" />
+      <index-reviewed-card :info="recentlyReviewed" />
     </NuxtLink>
   </div>
 </template>
