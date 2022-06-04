@@ -30,7 +30,8 @@ const props = defineProps({
     </div>
 
     <p class="text-base-content text-md text-opacity-80 px-3 py-1 mb-1">
-      {{ props.review.rv_content }}
+      <!-- '\r' causes SSR hydration Warning -->
+      {{ props.review.rv_content.replace(/[\r]/g, '') }}
     </p>
 
     <div class="divider mb-1" />

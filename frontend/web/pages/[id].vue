@@ -84,6 +84,7 @@ if (info) {
 
       <template v-if="reviewList.length > 0">
         <id-review-card v-for="review in reviewList" :key="review.rv_no" :review="review" />
+        <section-observer @trigger="loadReviewList" />
       </template>
       <div v-else class="card p-3 mb-4 bg-base-100 text-center text-base-content/70">
         아직 받은 리뷰가 없어요
