@@ -50,6 +50,16 @@ if (info) {
     <template v-if="info">
       <id-profile-card :info="info" />
 
+      <div v-if="isSelf" class="flex">
+        <div class="w-full text-center">
+          <NuxtLink :to="`https://twitter.com/intent/tweet?url=${`${config.public.webUrl}/${user.user_name}`}&text=${'트친리뷰에서 리뷰 모집중'}`" target="_blank">
+            <button class="btn btn-warning w-full">
+              프로필 공유
+            </button>
+          </NuxtLink>
+        </div>
+      </div>
+
       <template v-if="!isSelf">
         <div class="divider">
           리뷰 작성
