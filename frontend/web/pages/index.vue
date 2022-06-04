@@ -6,6 +6,12 @@ const { query: recentlyReviewedList } = await useApi('/user/v1/users/recently-re
   }
 })
 
+const { query: newlyJoinedList } = await useApi('/user/v1/users/newly-joined', {
+  params: {
+    offset: 0,
+    limit: 10
+  }
+})
 </script>
 
 <template>
@@ -32,8 +38,16 @@ const { query: recentlyReviewedList } = await useApi('/user/v1/users/recently-re
       최근에 리뷰 됨
     </div>
 
-    <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.rv_no" :to="`/${recentlyReviewed.user_name}`">
+    <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.user_no" :to="`/${recentlyReviewed.user_name}`">
       <index-reviewed-card :info="recentlyReviewed" />
+    </NuxtLink>
+
+    <div class="divider mb-5">
+      새로 가입 함
+    </div>
+
+    <NuxtLink v-for="newlyJoined in newlyJoinedList" :key="newlyJoined.user_no" :to="`/${newlyJoined.user_name}`">
+      <index-joined-card :info="newlyJoined" />
     </NuxtLink>
   </div>
 </template>
