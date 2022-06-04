@@ -24,8 +24,7 @@ module.exports = async ({ sql, params }) => {
     , COALESCE(reviews.count_total, 0)::int4 AS count_total
     , COALESCE(reviews.count_positive_recent, 0)::int4 AS count_positive_recent
     , COALESCE(reviews.count_total_recent, 0)::int4 AS count_total_recent
-  FROM
-    users u
+  FROM users u
   LEFT JOIN reviews ON reviews.user_no = u.user_no  
   WHERE
     u.user_name = ${params.user_name}
