@@ -3,13 +3,18 @@ const config = useRuntimeConfig()
 const route = useRoute()
 const user = await useUser()
 
-const { query: [info] } = await useApi('/user/v1/users', {
-  params: {
-    user_name: route.params.id
-  }
-})
+const info = ref(null)
+const loadInfo = async () => {
+  const data = await useApi('/user/v1/users', {
+    params: {
+      user_name: route.params.id
+    }
+  })
 
-const isSelf = computed(() => user.value.user_no === info?.user_no)
+  info.value = data.query[0]
+}
+
+const isSelf = computed(() => user.value.user_no === info.value?.user_no)
 
 const reviewList = ref([])
 const reviewListOffset = ref(0)
@@ -20,7 +25,7 @@ const loadReviewList = async (reset = false) => {
 
   const { query: data } = await useApi('/user/v1/review', {
     params: {
-      rv_user_no: info?.user_no,
+      rv_user_no: info.value?.user_no,
       offset: reviewListOffset.value,
       limit: 10
     }
@@ -34,7 +39,8 @@ const login = () => {
   window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
 }
 
-if (info) {
+await loadInfo()
+if (info.value) {
   await loadReviewList()
 }
 </script>
@@ -69,7 +75,10 @@ if (info) {
           v-if="user.isUser"
           :user="user"
           :info="info"
-          @change="loadReviewList(true)"
+          @change="
+            loadReviewList(true);
+            loadInfo()
+          "
         />
 
         <div v-else class="card p-3 mb-4 bg-base-100">
