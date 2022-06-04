@@ -1,10 +1,23 @@
 <script setup>
+import reviewCountToInfo from '@/utils/review-count-to-info'
+
 const props = defineProps({
   info: {
     type: Object,
     required: true
   }
 })
+
+const reviewRecentInfo = reviewCountToInfo(props.info.count_positive_recent, props.info.count_total_recent)
+const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count_total)
+
+const mapColor = {
+  positive: 'text-red-500',
+  negative: 'text-blue-500',
+  mixed: 'text-yellow-500',
+  no_reviews: 'text-gray-500'
+}
+
 </script>
 
 <template>
@@ -19,18 +32,17 @@ const props = defineProps({
     <div class="flex flex-col items-center space-x-2">
       <div class="w-full text-center">
         <div class="text-lg font-extrabold mb-1">
-          @{{ props.info.user_name }}
-        </div>
-        <div class="text-base-content/70 mb-1">
-          리뷰 3개
+          <NuxtLink :to="`https://twitter.com/${props.info.user_name}`" target="_blank">
+            @{{ props.info.user_name }}
+          </NuxtLink>
         </div>
         <div class="flex text-base-content/70 text-sm">
           <div class="flex flex-1 justify-end">
             <span class="mr-3">최근 리뷰:</span>
           </div>
           <div class="flex flex-1 justify-start">
-            <span class="text-red-500">대체로 부정적</span>
-            <span class="ml-1">(3)</span>
+            <span :class="mapColor[reviewRecentInfo.status]">{{ reviewRecentInfo.text }}</span>
+            <span class="ml-1" :class="mapColor[reviewRecentInfo.status]">({{ props.info.count_total_recent }})</span>
           </div>
         </div>
         <div class="flex text-base-content/70 text-sm">
@@ -38,8 +50,8 @@ const props = defineProps({
             <span class="mr-3">모든 리뷰:</span>
           </div>
           <div class="flex flex-1 justify-start">
-            <span class="text-blue-500">매우 긍정적</span>
-            <span class="ml-1">(3)</span>
+            <span :class="mapColor[reviewInfo.status]">{{ reviewInfo.text }}</span>
+            <span class="ml-1" :class="mapColor[reviewInfo.status]">({{ props.info.count_total }})</span>
           </div>
         </div>
       </div>
