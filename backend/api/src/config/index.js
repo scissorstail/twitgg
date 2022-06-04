@@ -20,6 +20,9 @@ module.exports = {
     max: process.env.PG_POOL_MAX || 10, // Max number of connections
     idle_timeout: process.env.PG_POOL_IDLE_TIMEOUT || 15, // Idle connection timeout in seconds
     connect_timeout: process.env.PG_POOL_TIMEOUT || 5, // Connect timeout in seconds
+    transform: {
+      undefined: null, // Transforms undefined values (eg. to null)
+    },
   },
   redis: {
     host: process.env.REDIS_HOST,
