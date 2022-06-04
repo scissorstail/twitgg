@@ -45,7 +45,7 @@ const create = async () => {
 
     await useApi('/user/v1/review', {
       method: 'POST',
-      params: {
+      body: {
         rv_content: rvContent.value,
         rv_positive: rvPositive.value,
         rv_user_no: props.info.user_no
@@ -71,7 +71,7 @@ const update = async () => {
 
     await useApi(`/user/v1/review/${myReview.value.rv_no}`, {
       method: 'PUT',
-      params: {
+      body: {
         rv_content: rvContent.value,
         rv_positive: rvPositive.value
       }
@@ -95,7 +95,7 @@ const remove = async () => {
     isRunning.value = true
     await useApi(`/user/v1/review/${myReview.value.rv_no}`, {
       method: 'PUT',
-      params: {
+      body: {
         state: 0
       }
     })
