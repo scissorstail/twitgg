@@ -43,7 +43,7 @@ if (info) {
   <div class="container max-w-2xl mx-auto p-5">
     <main-header />
 
-    <div class="divider mb-5">
+    <div class="divider mb-4">
       프로필
     </div>
 
@@ -59,8 +59,7 @@ if (info) {
           v-if="user.isUser"
           :user="user"
           :info="info"
-          @create="loadReviewList(true)"
-          @update="loadReviewList(true)"
+          @change="loadReviewList(true)"
         />
 
         <div v-else class="card p-3 mb-4 bg-base-100">
@@ -79,7 +78,7 @@ if (info) {
         </div>
       </template>
 
-      <div class="divider mb-5">
+      <div class="divider mb-4">
         받은 리뷰
       </div>
 
