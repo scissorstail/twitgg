@@ -25,9 +25,9 @@ passport.use('user.local', new LocalStrategy(
       // userId, userPw로 사용자 인증 확인. 해당 값이 없으면 400 리턴
       const query = await sql`
       SELECT
-        user_no,
-        user_pw,
-        state
+        user_no
+        , user_pw
+        , state
       FROM users
       WHERE
         user_id = ${userId}
@@ -115,8 +115,8 @@ passport.use('user.twitter', new TwitterStrategy(
         // 기존에 존재하는 유저인지 확인
         const [user] = await sql`
         SELECT
-          user_no,
-          state
+          user_no
+          , state
         FROM users
         WHERE
           user_provider = 'twitter'
@@ -134,11 +134,11 @@ passport.use('user.twitter', new TwitterStrategy(
           // 기존에 존재하는 유저면 유저정보 업데이트
           const [updatedUser] = await sql`
           UPDATE users SET
-            user_pw = ${userPw},
-            user_name = ${profile.username},
-            user_nick = ${userNick},
-            user_provider_info = ${profile},
-            updated_dt = now()
+            user_pw = ${userPw}
+            , user_name = ${profile.username}
+            , user_nick = ${userNick}
+            , user_provider_info = ${profile}
+            , updated_dt = now()
           WHERE
             user_no = ${user.user_no}
           RETURNING user_no, state
@@ -149,21 +149,21 @@ passport.use('user.twitter', new TwitterStrategy(
         // 새 유저일 경우 회원가입 처리
         const [newUser] = await sql`
         INSERT INTO users (
-          user_id,
-          user_pw,
-          user_name,
-          user_nick,
-          user_provider,
-          user_provider_info,
-          state
+          user_id
+          , user_pw
+          , user_name
+          , user_nick
+          , user_provider
+          , user_provider_info
+          , state
         ) VALUES (
-          ${profile.id},
-          ${userPw},
-          ${profile.username},
-          ${userNick},
-          'twitter',
-          ${profile},
-          1
+          ${profile.id}
+          , ${userPw}
+          , ${profile.username}
+          , ${userNick}
+          , 'twitter'
+          , ${profile}
+          , 1
         ) RETURNING user_no, state
         `;
 
