@@ -1,15 +1,35 @@
 module.exports = async ({ sql, params }) => {
   const query = await sql`
+  WITH reviews AS (
+    SELECT
+      u.user_no
+      , (count(r.rv_no) FILTER(WHERE r.rv_positive = 1))::int4 AS count_positive
+      , (count(r.rv_no))::int4 AS count_total
+      , (count(r.rv_no) FILTER(WHERE r.rv_positive = 1 AND r.created_dt >= now() - INTERVAL '30 days'))::int4 AS count_positive_recent
+      , (count(r.rv_no) FILTER(WHERE r.created_dt >= now() - INTERVAL '30 days'))::int4 AS count_total_recent
+    FROM review r
+    JOIN users u ON r.rv_user_no = u.user_no 
+    WHERE
+      u.user_name = ${params.user_name}
+      AND u.state = 1
+      AND r.state = 1
+    GROUP BY u.user_no
+  ) 
   SELECT
-    user_no
-    , user_name
-    , user_nick
-    , user_provider_info -> 'photos' -> 0 ->> 'value' AS user_profile_image_url
+    u.user_no
+    , u.user_name
+    , u.user_nick
+    , u.user_provider_info -> 'photos' -> 0 ->> 'value' AS user_profile_image_url
+    , reviews.count_positive
+    , reviews.count_total
+    , reviews.count_positive_recent
+    , reviews.count_total_recent
   FROM
-    users
+    users u
+  JOIN reviews ON reviews.user_no = u.user_no  
   WHERE
-    user_name = ${params.user_name}
-    AND state = 1
+    u.user_name = ${params.user_name}
+    AND u.state = 1
   `;
 
   return {
