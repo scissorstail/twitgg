@@ -19,3 +19,21 @@ CREATE TABLE public.users (
 	CONSTRAINT users_un UNIQUE (user_id),
 	CONSTRAINT users_un_1 UNIQUE (user_name)
 );
+
+-- public.review definition
+
+-- Drop table
+
+-- DROP TABLE public.review;
+
+CREATE TABLE public.review (
+	rv_no serial4 NOT NULL,
+	user_no int4 NOT NULL,
+	rv_positive int4 NOT NULL,
+	rv_content text NOT NULL,
+	rv_user_no int4 NOT NULL,
+	created_dt timestamptz NOT NULL DEFAULT now(),
+	updated_dt timestamptz NULL,
+	state int4 NOT NULL DEFAULT 1,
+	CONSTRAINT review_pk PRIMARY KEY (rv_no)
+);
