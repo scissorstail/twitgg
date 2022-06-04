@@ -17,7 +17,6 @@ const mapColor = {
   mixed: 'text-yellow-500',
   no_reviews: 'text-gray-500'
 }
-
 </script>
 
 <template>
