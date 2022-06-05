@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: ./docker.conf/Dockerfile.prod
+    image: api
+
+  web:
+    build:
+      context: ./frontend/web
+      dockerfile: ./docker.conf/Dockerfile.prod
+    image: lepick_web
+

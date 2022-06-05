@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   postgres:
-    container_name: test_postgres
+    container_name: postgres
     image: postgres:14
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -13,13 +13,13 @@ services:
     expose:
       - 5432
     ports:
-      - 25432:5432
+      - 15432:5432
     volumes:
       - ./data/postgres/pgdata/data:/var/lib/postgresql/data
     restart: always
-    
+
   redis:
-    container_name: test_redis
+    container_name: redis
     image: redis:7-alpine
     hostname: redis
     command: redis-server --port 6379
@@ -29,23 +29,20 @@ services:
     expose:
       - 6379
     ports:
-      - 26379:6379
+      - 16379:6379
     restart: always
-    
+
   api:
-    build:
-      context: ./backend/api
-      dockerfile: ./docker.conf/Dockerfile
-    container_name: test_api
-    image: test_api
+    container_name: api
+    image: api
     volumes:
       - ./backend/api:/api
       - /api/node_modules
     environment:
       - TZ=Asia/Seoul
-      - NODE_ENV=development
+      - NODE_ENV=production
     ports:
-      - 29595:9595
+      - 19595:9595
     links:
       - postgres:postgres
     depends_on:
@@ -53,17 +50,14 @@ services:
       - postgres
   
   web:
-    build:
-      context: ./frontend/web
-      dockerfile: ./docker.conf/Dockerfile
-    container_name: test_web
-    image: test_web
+    container_name: web
+    image: web
     volumes:
       - ./frontend/web:/web
       - /web/node_modules
     environment:
       - TZ=Asia/Seoul
     ports:
-      - 23000:3000
+      - 13000:3000
     depends_on:
       - api
