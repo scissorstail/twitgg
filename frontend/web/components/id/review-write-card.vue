@@ -26,7 +26,9 @@ const loadMyReview = async () => {
   const { query: [data] } = await useApi('/user/v1/review', {
     params: {
       user_no: props.user.user_no,
-      rv_user_no: props.info.user_no
+      rv_user_no: props.info.user_no,
+      offset: 0,
+      limit: 1
     }
   })
 
