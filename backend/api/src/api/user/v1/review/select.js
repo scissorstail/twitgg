@@ -39,8 +39,8 @@ module.exports = async ({ sql, params: _params }) => {
   JOIN users u ON u.user_no = r.user_no
   WHERE
     r.rv_user_no = ${params.rv_user_no}
-    AND u.user_no = COALESCE(${params.user_no}, u.user_no)
     AND r.state = 1
+    AND u.state = 1
   ORDER BY r.rv_no DESC
   OFFSET ${params.offset} LIMIT ${params.limit}
   `;

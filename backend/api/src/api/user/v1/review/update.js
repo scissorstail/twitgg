@@ -36,6 +36,15 @@ module.exports = async ({ sql, params: _params }) => {
   RETURNING rv_no
   `;
 
+  if (query.length === 0) {
+    const e = new Error('Review Not Found');
+    e.status = 422;
+    e.data = {
+      state: -1,
+    };
+    throw e;
+  }
+
   return {
     state: 1,
     query,

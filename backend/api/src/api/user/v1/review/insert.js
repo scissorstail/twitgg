@@ -23,7 +23,26 @@ module.exports = async ({ sql, params: _params }) => {
       .required(),
   }).validateAsync(_params);
 
-  const query = await sql`
+  const query0 = await sql`
+  SELECT
+    rv_no
+  FROM review
+  WHERE
+    user_no = ${params.user_no}
+    AND rv_user_no = ${params.rv_user_no}
+    AND state = 1
+  `;
+
+  if (query0.length > 0) {
+    const e = new Error('Review Already Exists');
+    e.status = 422;
+    e.data = {
+      state: -1,
+    };
+    throw e;
+  }
+
+  const query1 = await sql`
   INSERT INTO review (
     user_no
     , rv_positive
@@ -39,6 +58,6 @@ module.exports = async ({ sql, params: _params }) => {
 
   return {
     state: 1,
-    query,
+    query: query1,
   };
 };
