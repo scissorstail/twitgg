@@ -4,9 +4,9 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      webUrl: '',
-      apiUrl: '',
-      tokenName: ''
+      webUrl: process.env.NUXT_PUBLIC_WEB_URL || '',
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || '',
+      tokenName: process.env.NUXT_PUBLIC_TOKEN_NAME || ''
     }
   },
   modules: ['@nuxtjs/tailwindcss'],
