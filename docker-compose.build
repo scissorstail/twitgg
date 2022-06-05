@@ -12,5 +12,5 @@ services:
     build:
       context: ./frontend/web
       dockerfile: ./docker.conf/Dockerfile.prod
-    image: lepick_web
+    image: web
 

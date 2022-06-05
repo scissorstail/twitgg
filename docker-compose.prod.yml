@@ -35,9 +35,6 @@ services:
   api:
     container_name: api
     image: api
-    volumes:
-      - ./backend/api:/api
-      - /api/node_modules
     environment:
       - TZ=Asia/Seoul
       - NODE_ENV=production
@@ -52,9 +49,6 @@ services:
   web:
     container_name: web
     image: web
-    volumes:
-      - ./frontend/web:/web
-      - /web/node_modules
     environment:
       - TZ=Asia/Seoul
     ports:

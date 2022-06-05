@@ -9,5 +9,14 @@ export default defineNuxtConfig({
       tokenName: ''
     }
   },
-  modules: ['@nuxtjs/tailwindcss']
+  modules: ['@nuxtjs/tailwindcss'],
+  vite: {
+    server: {
+      port: 443,
+      https: true,
+      hmr: {
+        protocol: 'wss'
+      }
+    }
+  }
 })
