@@ -1,4 +1,13 @@
-module.exports = async ({ sql, params }) => {
+const Joi = require('joi');
+
+module.exports = async ({ sql, params: _params }) => {
+  const params = await Joi.object({
+    user_name: Joi.string()
+      .min(1)
+      .max(15)
+      .required(),
+  }).validateAsync(_params);
+
   const query = await sql`
   WITH reviews AS (
     SELECT

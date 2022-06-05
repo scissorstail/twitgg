@@ -1,4 +1,21 @@
-module.exports = async ({ sql, params }) => {
+const Joi = require('joi');
+
+module.exports = async ({ sql, params: _params }) => {
+  const params = await Joi.object({
+    offset: Joi
+      .number()
+      .integer()
+      .min(0)
+      .max(100)
+      .required(),
+    limit: Joi
+      .number()
+      .integer()
+      .min(0)
+      .max(100)
+      .required(),
+  }).validateAsync(_params);
+
   const query = await sql`
   SELECT
     u.user_no

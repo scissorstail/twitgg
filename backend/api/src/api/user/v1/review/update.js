@@ -1,4 +1,28 @@
-module.exports = async ({ sql, params }) => {
+const Joi = require('joi');
+
+module.exports = async ({ sql, params: _params }) => {
+  const params = await Joi.object({
+    user_no: Joi
+      .number()
+      .integer()
+      .positive()
+      .required(),
+    rv_no: Joi
+      .number()
+      .integer()
+      .positive()
+      .required(),
+    rv_positive: Joi
+      .number()
+      .valid(1, 0),
+    rv_content: Joi
+      .string()
+      .max(10000),
+    state: Joi
+      .number()
+      .valid(0),
+  }).validateAsync(_params);
+
   const query = await sql`
   UPDATE review SET
     rv_positive = COALESCE(${params.rv_positive}, rv_positive)

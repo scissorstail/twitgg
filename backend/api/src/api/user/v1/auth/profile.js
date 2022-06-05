@@ -1,4 +1,14 @@
-module.exports = async ({ sql, params }) => {
+const Joi = require('joi');
+
+module.exports = async ({ sql, params: _params }) => {
+  const params = await Joi.object({
+    user_no: Joi
+      .number()
+      .integer()
+      .positive()
+      .required(),
+  }).validateAsync(_params);
+
   // 사용자 정보 조회
   const query = await sql`
   SELECT

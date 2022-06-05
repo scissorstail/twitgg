@@ -87,6 +87,11 @@ passport.use('user.jwt', new JWTStrategy(
       // 필요시 유저 정보 조회하는 DB 쿼리 실행
 
       // 사용자 정보 조회 성공
+
+      // 기타 토큰 정보 제거
+      delete jwtPayload.iat;
+      delete jwtPayload.exp;
+
       return done(null, jwtPayload);
     } catch (e) {
       // 사용자 인증 체크 중 에러 발생 시
