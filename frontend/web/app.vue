@@ -7,5 +7,6 @@
 <style>
  #app {
    word-break: keep-all;
+   min-width: 330px;
  }
 </style>
