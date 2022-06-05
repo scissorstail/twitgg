@@ -36,16 +36,18 @@ app.use(passport.initialize());
 app.use(compression()); // 응답압축
 app.disable('x-powered-by'); // x-powered-by 헤더 비활성화
 
-// API 호출 시 URL 로그 출력
-app.all('*', (req, res, next) => {
-  if (req.originalUrl === '/') {
+if (process.env.NODE_ENV === 'development') {
+  // API 호출 시 URL 로그 출력
+  app.all('*', (req, res, next) => {
+    if (req.originalUrl === '/') {
     // Ignore hck
-    return next();
-  }
+      return next();
+    }
 
-  console.log(`Server:${process.env.NODE_APP_INSTANCE || 0} ${req.method} ${req.originalUrl}`);
-  return next();
-});
+    console.log(`Server:${process.env.NODE_APP_INSTANCE || 0} ${req.method} ${req.originalUrl}`);
+    return next();
+  });
+}
 
 // hck
 app.get('/', (req, res) => {
