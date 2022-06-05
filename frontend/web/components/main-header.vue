@@ -11,6 +11,14 @@ const home = () => {
   }
 }
 
+const profile = () => {
+  if (route.path === `/${user.value.user_name}`) {
+    window.location.reload()
+  } else {
+    navigateTo(`/${user.value.user_name}`)
+  }
+}
+
 const login = () => {
   window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
 }
@@ -41,9 +49,9 @@ const logout = () => {
           </label>
           <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
             <li>
-              <NuxtLink :to="`/${user.user_name}`">
+              <a @click="profile">
                 프로필
-              </NuxtLink>
+              </a>
             </li>
             <!-- <li>
               <NuxtLink to="/setting">
