@@ -18,7 +18,14 @@ const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count
     <div class="flex flex-col items-center space-x-2">
       <div class="avatar">
         <div class="w-24 rounded-full">
-          <img :src="props.info.user_profile_image_url?.replace('_normal', '')">
+          <img
+            :src="props.info.user_profile_image_url?.replace('_normal', '')"
+            @error="
+              $event.target.src !== props.info.user_profile_image_url
+                ? $event.target.src = props.info.user_profile_image_url
+                : ''
+            "
+          >
         </div>
       </div>
     </div>
