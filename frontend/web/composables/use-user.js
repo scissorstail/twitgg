@@ -26,8 +26,12 @@ export const refreshUser = async () => {
   const data = await useApi('/user/v1/auth/profile')
 
   const [userState] = data.query
+  if (!userState && process.client) {
+    return resetUser()
+  }
+
   user.value = {
     ...userState,
-    isUser: true
+    isUser: Boolean(userState)
   }
 }
