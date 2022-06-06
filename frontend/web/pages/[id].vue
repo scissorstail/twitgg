@@ -3,6 +3,10 @@ const config = useRuntimeConfig()
 const route = useRoute()
 const user = await useUser()
 
+useHead({
+  title: `${route.params.id}님의 트친리뷰`
+})
+
 const info = ref(null)
 const loadInfo = async () => {
   const data = await useApi('/user/v1/users', {
