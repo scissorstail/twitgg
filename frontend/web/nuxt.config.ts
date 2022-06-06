@@ -18,5 +18,6 @@ export default defineNuxtConfig({
         protocol: 'wss'
       }
     }
-  }
+  },
+  ssr: false
 })
