@@ -40,18 +40,19 @@ const login = () => {
 }
 
 await loadInfo()
-if (info.value) {
-  useHead({
-    title: `${info.value.user_name}님의 트친리뷰`,
-    meta: [
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:url', content: config.public.webUrl + route.path },
-      { name: 'twitter:title', content: `${info.value.user_name}님의 트친리뷰` },
-      { name: 'twitter:description', content: `트위터의 ${info.value.user_name}님은 리뷰 모집중` },
-      { name: 'twitter:image', content: info.value.user_profile_image_url }
-    ]
-  })
 
+useHead({
+  title: `${route.params.id}님의 트친리뷰`,
+  meta: [
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:url', content: config.public.webUrl + route.path },
+    { name: 'twitter:title', content: `${info.value?.user_name}님의 트친리뷰` },
+    { name: 'twitter:description', content: `트위터의 ${info.value?.user_name}님은 리뷰 모집중` },
+    { name: 'twitter:image', content: info.value?.user_profile_image_url }
+  ]
+})
+
+if (info.value) {
   await loadReviewList()
 }
 
