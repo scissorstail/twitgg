@@ -153,6 +153,7 @@ await loadMyReview()
           v-model="rvContent"
           class="textarea textarea-bordered h-32"
           placeholder="이 트친의 좋았던 점 또는 싫었던 점, 그리고 이 트친을 다른 사람들에게 추천하는지 여부에 대해 써주세요. 정중하게 써주셔야 하며 무슨무슨 규칙 및 기준을 지키셔야 합니다."
+          maxlength="10000"
         />
         <label class="label">
           <span class="label-text-alt">이 트친을 추천 하시겠습니까?</span>
