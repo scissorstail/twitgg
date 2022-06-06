@@ -38,16 +38,26 @@ const { query: newlyJoinedList } = await useApi('/user/v1/users/newly-joined', {
       최근에 리뷰 됨
     </div>
 
-    <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.user_no" :to="`/${recentlyReviewed.user_name}`">
-      <index-reviewed-card :info="recentlyReviewed" />
-    </NuxtLink>
+    <template v-if="recentlyReviewedList.length > 0">
+      <NuxtLink v-for="recentlyReviewed in recentlyReviewedList" :key="recentlyReviewed.user_no" :to="`/${recentlyReviewed.user_name}`">
+        <index-reviewed-card :info="recentlyReviewed" />
+      </NuxtLink>
+    </template>
+    <div v-else class="card p-3 mb-4 bg-base-100 text-center text-base-content/70">
+      아직 리뷰된 트친이 없어요
+    </div>
 
     <div class="divider mb-5">
       새로 가입 함
     </div>
 
-    <NuxtLink v-for="newlyJoined in newlyJoinedList" :key="newlyJoined.user_no" :to="`/${newlyJoined.user_name}`">
-      <index-joined-card :info="newlyJoined" />
-    </NuxtLink>
+    <template v-if="newlyJoinedList.length > 0">
+      <NuxtLink v-for="newlyJoined in newlyJoinedList" :key="newlyJoined.user_no" :to="`/${newlyJoined.user_name}`">
+        <index-joined-card :info="newlyJoined" />
+      </NuxtLink>
+    </template>
+    <div v-else class="card p-3 mb-4 bg-base-100 text-center text-base-content/70">
+      아직 사용자가 없어요
+    </div>
   </div>
 </template>
