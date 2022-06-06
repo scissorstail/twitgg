@@ -32,6 +32,7 @@ module.exports = async ({ sql, params: _params }) => {
   recently_reviewed AS (
     SELECT 
       r.rv_user_no
+      , max(r.rv_no) AS rv_no
     FROM review r
     WHERE
       r.state = 1
@@ -50,6 +51,7 @@ module.exports = async ({ sql, params: _params }) => {
   LEFT JOIN reviews ON reviews.user_no = u.user_no
   WHERE
     u.state = 1
+  ORDER BY recently_reviewed.rv_no DESC
   OFFSET ${params.offset} LIMIT ${params.limit}
   `;
 
