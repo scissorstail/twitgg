@@ -16,6 +16,12 @@ if (route.query.success === 'false') {
         navigateTo('/')
       }
       break
+    case '-4':
+      if (process.client) {
+        alert('트위터 로그인 오류입니다. 잠시 후 다시 시도해주시기 바랍니다.')
+        navigateTo('/')
+      }
+      break
   }
 }
 </script>
