@@ -16,10 +16,13 @@ const loadInfo = async () => {
 
 const isSelf = computed(() => user.value.user_no === info.value?.user_no)
 
+const isLoadReviewListComplete = ref(false)
 const reviewList = ref([])
 const reviewListOffset = ref(0)
+const reviewListLimit = ref(10)
 const loadReviewList = async (reset = false) => {
   if (reset) {
+    isLoadReviewListComplete.value = false
     reviewListOffset.value = 0
   }
 
@@ -27,9 +30,13 @@ const loadReviewList = async (reset = false) => {
     params: {
       rv_user_no: info.value?.user_no,
       offset: reviewListOffset.value,
-      limit: 10
+      limit: reviewListLimit.value
     }
   })
+
+  if (data < reviewListLimit.value) {
+    isLoadReviewListComplete.value = true
+  }
 
   reviewList.value = reset ? data : reviewList.value.concat(data)
   reviewListOffset.value = reviewList.value.length
@@ -116,7 +123,7 @@ if (info.value) {
 
       <template v-if="reviewList.length > 0">
         <id-review-card v-for="review in reviewList" :key="review.rv_no" :review="review" />
-        <section-observer @trigger="loadReviewList" />
+        <section-observer v-if="!isLoadReviewListComplete" @trigger="loadReviewList" />
       </template>
       <div v-else class="card p-3 mb-4 bg-base-100 text-center text-base-content/70">
         아직 받은 리뷰가 없어요
