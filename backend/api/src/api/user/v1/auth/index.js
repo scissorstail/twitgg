@@ -23,7 +23,7 @@ async function loginTwitter(req, res) {
 module.exports = (app) => {
   // twitter
   app.get('/login/twitter', passport.authenticate('user.twitter', { session: false, scope: ['tweet.read', 'tweet.write', 'users.read'] })); // 트위터 로그인
-  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { session: false, failureRedirect: `${config.app.webUrl}/social-redirect/twitter?success=false&state=${-4}` }), loginTwitter); // 트위터 로그인 콜백
+  app.get('/login/twitter/callback', passport.authenticate('user.twitter', { session: false, failureRedirect: `${config.app.webUrl}?success=false&state=${-4}` }), loginTwitter); // 트위터 로그인 콜백
 
   app.group([passport.authenticate('user.jwt', { session: false })], (router) => {
     router.get('/profile', handle(require('./profile')));
