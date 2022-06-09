@@ -1,10 +1,15 @@
 <script setup>
+const props = defineProps({
+  isEnabled: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const emit = defineEmits(['trigger'])
+
 const trigger = ref()
-const options = {
-  root: null,
-  threshold: 1
-}
+
 let observer = null
 const handleIntersect = (entry) => {
   if (entry.isIntersecting) {
@@ -16,7 +21,10 @@ onMounted(() => {
   try {
     observer = new IntersectionObserver((entries) => {
       handleIntersect(entries[0])
-    }, options)
+    }, {
+      root: null,
+      threshold: 1
+    })
     observer.observe(trigger.value)
   } catch (err) {
     console.error(err)
@@ -29,5 +37,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="trigger" />
+  <div v-if="props.isEnabled" ref="trigger" />
 </template>

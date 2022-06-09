@@ -34,7 +34,7 @@ const loadReviewList = async (reset = false) => {
     }
   })
 
-  if (data < reviewListLimit.value) {
+  if (data.length < reviewListLimit.value) {
     isLoadReviewListComplete.value = true
   }
 
@@ -123,7 +123,7 @@ if (info.value) {
 
       <template v-if="reviewList.length > 0">
         <id-review-card v-for="review in reviewList" :key="review.rv_no" :review="review" />
-        <section-observer v-if="!isLoadReviewListComplete" @trigger="loadReviewList" />
+        <section-observer :is-enabled="!isLoadReviewListComplete" @trigger="loadReviewList" />
       </template>
       <div v-else class="card p-3 mb-4 bg-base-100 text-center text-base-content/70">
         아직 받은 리뷰가 없어요
