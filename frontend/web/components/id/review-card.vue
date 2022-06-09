@@ -37,7 +37,7 @@ const props = defineProps({
     <div class="divider mb-1" />
 
     <div class="flex">
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-2 w-full">
         <NuxtLink :to="`/${props.review.user_name}`">
           <label class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
@@ -45,9 +45,14 @@ const props = defineProps({
             </div>
           </label>
         </NuxtLink>
-        <div class="text-sm">
-          <div>
-            @{{ props.review.user_name }}
+        <div class="w-full text-sm overflow-hidden">
+          <div class="flex w-full items-baseline mb-0.5">
+            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+              {{ props.review.user_nick }}
+            </div>
+            <div class="text-md text-base-content/70 mr-3">
+              @{{ props.review.user_name }}
+            </div>
           </div>
           <div class="text-xs text-base-content/70">
             게시 일시: {{ dayjs(props.review.created_dt).format('YYYY년 MM월 DD일') }} {{ props.review.updated_dt ? '(수정됨)' : '' }}

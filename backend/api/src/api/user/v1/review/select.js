@@ -34,6 +34,7 @@ module.exports = async ({ sql, params: _params }) => {
     , r.updated_dt
     , u.user_no
     , u.user_name
+    , u.user_nick
     , u.user_provider_info -> 'photos' -> 0 ->> 'value' AS user_profile_image_url
   FROM review r
   JOIN users u ON u.user_no = r.user_no

@@ -117,24 +117,26 @@ await loadMyReview()
 <template>
   <div class="card p-3 mb-4 bg-base-100">
     <div class="flex">
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-2 w-full">
         <label class="btn btn-ghost btn-circle avatar" style="pointer-events: none;">
           <div class="w-10 rounded-full">
             <img :src="props.user.user_profile_image_url">
           </div>
         </label>
-        <div class="text-sm">
-          <div>
-            @{{ props.user.user_name }}
+        <div class="text-sm w-full overflow-hidden">
+          <div class="flex w-full items-baseline mb-0.5">
+            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+              {{ props.user.user_nick }}
+            </div>
+            <div class="text-md text-base-content/70">
+              @{{ props.user.user_name }}
+            </div>
           </div>
           <div v-if="myReview" class="text-xs text-base-content/70">
             게시 일시: {{ dayjs(myReview.created_dt).format('YYYY년 MM월 DD일') }} {{ myReview.updated_dt ? '(수정됨)' : '' }}
           </div>
         </div>
-      </div>
-
-      <div v-if="myReview" class="flex ml-auto">
-        <div class="dropdown dropdown-end">
+        <div v-if="myReview" class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-square">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
           </label>

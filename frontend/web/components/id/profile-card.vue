@@ -15,7 +15,7 @@ const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count
 
 <template>
   <div class="card p-3 mb-4 bg-base-200 py-8">
-    <div class="flex flex-col items-center space-x-2">
+    <div class="flex flex-col items-center space-x-2 mb-1">
       <div class="avatar">
         <div class="w-24 rounded-full">
           <img
@@ -31,9 +31,14 @@ const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count
     </div>
     <div class="flex flex-col items-center space-x-2">
       <div class="w-full text-center">
-        <div class="text-lg font-extrabold mb-1">
+        <div class="mb-1">
           <NuxtLink :to="`https://twitter.com/${props.info.user_name}`" target="_blank">
-            @{{ props.info.user_name }}
+            <div class="max-w-full text-lg font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+              {{ props.info.user_nick }}
+            </div>
+            <div class="text-md text-base-content/70">
+              @{{ props.info.user_name }}
+            </div>
           </NuxtLink>
         </div>
         <div class="flex text-base-content/70 text-sm">
