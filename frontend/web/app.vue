@@ -42,6 +42,6 @@ nuxtApp.hook('page:finish', () => {
 #app {
   word-break: keep-all;
   word-wrap: break-word;
-  min-width: 330px;
+  min-width: 380px;
 }
 </style>
