@@ -24,6 +24,12 @@ if (route.query.success === 'false') {
       break
   }
 }
+
+const nuxtApp = useNuxtApp()
+
+nuxtApp.hook('page:finish', () => {
+  setTimeout(() => window.scrollTo(0, 0), 0)
+})
 </script>
 
 <template>
@@ -33,8 +39,9 @@ if (route.query.success === 'false') {
 </template>
 
 <style>
- #app {
-   word-break: keep-all;
-   min-width: 330px;
- }
+#app {
+  word-break: keep-all;
+  word-wrap: break-word;
+  min-width: 330px;
+}
 </style>
