@@ -47,7 +47,7 @@ const props = defineProps({
         </NuxtLink>
         <div class="w-full text-sm overflow-hidden">
           <div class="flex w-full items-baseline mb-0.5">
-            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden mr-1">
               {{ props.review.user_nick }}
             </div>
             <div class="text-md text-base-content/70 mr-3">

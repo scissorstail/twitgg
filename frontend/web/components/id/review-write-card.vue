@@ -117,7 +117,7 @@ await loadMyReview()
 <template>
   <div class="card p-3 mb-4 bg-base-100">
     <div class="flex">
-      <div class="flex items-center space-x-2 w-full">
+      <div class="flex items-center space-x-1 w-full">
         <label class="btn btn-ghost btn-circle avatar" style="pointer-events: none;">
           <div class="w-10 rounded-full">
             <img :src="props.user.user_profile_image_url">
@@ -125,7 +125,7 @@ await loadMyReview()
         </label>
         <div class="text-sm w-full overflow-hidden">
           <div class="flex w-full items-baseline mb-0.5">
-            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+            <div class="max-w-full text-xs font-extrabold whitespace-nowrap text-ellipsis overflow-hidden mr-1">
               {{ props.user.user_nick }}
             </div>
             <div class="text-md text-base-content/70">
