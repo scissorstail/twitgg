@@ -9,7 +9,23 @@ export default defineNuxtConfig({
       tokenName: process.env.NUXT_PUBLIC_TOKEN_NAME || ''
     }
   },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    'nuxt-progress'
+  ],
+  progress: {
+    // Default: 2px
+    height: '1px',
+    // Default: #29D
+    color: '#29D',
+    // NProgress options: https://www.npmjs.com/package/nprogress#configuration
+    options: {
+      showSpinner: false,
+      speed: 50,
+      trickleRate: 0.1,
+      trickleSpeed: 500
+    }
+  },
   vite: {
     server: {
       port: 443,

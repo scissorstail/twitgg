@@ -19,5 +19,8 @@
     "typescript": "^4.7.2",
     "vite-plugin-eslint": "^1.6.1",
     "vue-gtag": "^2.0.1"
+  },
+  "dependencies": {
+    "nuxt-progress": "^0.1.4"
   }
 }
