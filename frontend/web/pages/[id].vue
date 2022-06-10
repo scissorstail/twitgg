@@ -1,4 +1,6 @@
 <script setup>
+import uniqBy from 'lodash/uniqBy'
+
 const config = useRuntimeConfig()
 const route = useRoute()
 const user = await useUser()
@@ -38,7 +40,7 @@ const loadReviewList = async (reset = false) => {
     isLoadReviewListComplete.value = true
   }
 
-  reviewList.value = reset ? data : reviewList.value.concat(data)
+  reviewList.value = reset ? data : uniqBy(reviewList.value.concat(data), x => x.rv_no)
   reviewListOffset.value = reviewList.value.length
 }
 
