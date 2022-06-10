@@ -41,7 +41,14 @@ const props = defineProps({
         <NuxtLink :to="`/${props.review.user_name}`">
           <label class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
-              <img :src="props.review.user_profile_image_url">
+              <img
+                :src="props.review.user_profile_image_url"
+                @error="
+                  $event.target.src !== props.review.user_profile_image_url
+                    ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
+                    : ''
+                "
+              >
             </div>
           </label>
         </NuxtLink>

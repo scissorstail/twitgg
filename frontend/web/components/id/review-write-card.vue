@@ -120,7 +120,14 @@ await loadMyReview()
       <div class="flex items-center space-x-1 w-full">
         <label class="btn btn-ghost btn-circle avatar" style="pointer-events: none;">
           <div class="w-10 rounded-full">
-            <img :src="props.user.user_profile_image_url">
+            <img
+              :src="props.user.user_profile_image_url"
+              @error="
+                $event.target.src !== props.user.user_profile_image_url
+                  ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
+                  : ''
+              "
+            >
           </div>
         </label>
         <div class="text-sm w-full overflow-hidden">
