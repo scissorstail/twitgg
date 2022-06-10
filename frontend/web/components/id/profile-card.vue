@@ -32,14 +32,14 @@ const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count
     <div class="flex flex-col items-center space-x-2">
       <div class="w-full text-center">
         <div class="mb-1">
-          <NuxtLink :to="`https://twitter.com/${props.info.user_name}`" target="_blank">
-            <div class="max-w-full text-lg font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
-              {{ props.info.user_nick }}
-            </div>
-            <div class="text-md text-base-content/70">
+          <div class="max-w-full text-lg font-extrabold whitespace-nowrap text-ellipsis overflow-hidden">
+            {{ props.info.user_nick }}
+          </div>
+          <div class="text-md text-base-content/70">
+            <NuxtLink :to="`https://twitter.com/${props.info.user_name}`" target="_blank">
               @{{ props.info.user_name }}
-            </div>
-          </NuxtLink>
+            </NuxtLink>
+          </div>
         </div>
         <div class="flex text-base-content/70 text-sm">
           <div class="flex flex-1 justify-end">
