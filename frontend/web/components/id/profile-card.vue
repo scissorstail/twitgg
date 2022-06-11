@@ -21,7 +21,7 @@ const reviewInfo = reviewCountToInfo(props.info.count_positive, props.info.count
           <img
             :src="props.info.user_profile_image_url?.replace('_normal', '')"
             @error="
-              $event.target.src !== props.info.user_profile_image_url
+              $event.target.src === props.info.user_profile_image_url?.replace('_normal', '')
                 ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
                 : ''
             "

@@ -42,9 +42,9 @@ const props = defineProps({
           <label class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
               <img
-                :src="props.review.user_profile_image_url"
+                :src="props.review.user_profile_image_url?.replace('_normal', '')"
                 @error="
-                  $event.target.src !== props.review.user_profile_image_url
+                  $event.target.src === props.review.user_profile_image_url?.replace('_normal', '')
                     ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
                     : ''
                 "

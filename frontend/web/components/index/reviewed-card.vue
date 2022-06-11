@@ -18,9 +18,9 @@ const reviewRecentInfo = reviewCountToInfo(props.info.count_positive_recent, pro
       <div class="avatar">
         <div class="w-10 rounded-full">
           <img
-            :src="props.info.user_profile_image_url"
+            :src="props.info.user_profile_image_url?.replace('_normal', '')"
             @error="
-              $event.target.src !== props.info.user_profile_image_url
+              $event.target.src === props.info.user_profile_image_url?.replace('_normal', '')
                 ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
                 : ''
             "

@@ -121,9 +121,9 @@ await loadMyReview()
         <label class="btn btn-ghost btn-circle avatar" style="pointer-events: none;">
           <div class="w-10 rounded-full">
             <img
-              :src="props.user.user_profile_image_url"
+              :src="props.user.user_profile_image_url?.replace('_normal', '')"
               @error="
-                $event.target.src !== props.user.user_profile_image_url
+                $event.target.src === props.user.user_profile_image_url?.replace('_normal', '')
                   ? $event.target.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile.png'
                   : ''
               "
