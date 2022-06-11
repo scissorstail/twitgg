@@ -25,7 +25,9 @@ onMounted(() => {
       root: null,
       threshold: 1
     })
-    observer.observe(trigger.value)
+    if (trigger.value) {
+      observer.observe(trigger.value)
+    }
   } catch (err) {
     console.error(err)
   }
