@@ -35,5 +35,7 @@ CREATE TABLE public.review (
 	created_dt timestamptz NOT NULL DEFAULT now(),
 	updated_dt timestamptz NULL,
 	state int4 NOT NULL DEFAULT 1,
-	CONSTRAINT review_pk PRIMARY KEY (rv_no)
+	CONSTRAINT review_pk PRIMARY KEY (rv_no),
+	CONSTRAINT review_fk FOREIGN KEY (user_no) REFERENCES public.users(user_no) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT review_fk_1 FOREIGN KEY (rv_user_no) REFERENCES public.users(user_no) ON DELETE CASCADE ON UPDATE CASCADE
 );
