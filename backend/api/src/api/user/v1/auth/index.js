@@ -27,5 +27,6 @@ module.exports = (app) => {
 
   app.group([passport.authenticate('user.jwt', { session: false })], (router) => {
     router.get('/profile', handle(require('./profile')));
+    router.delete('/leave', handle(require('./leave')));
   });
 };

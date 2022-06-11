@@ -19,12 +19,16 @@ const profile = () => {
   }
 }
 
-const login = () => {
-  window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
+const setting = () => {
+  if (route.path === '/setting') {
+    window.location.reload()
+  } else {
+    navigateTo('/setting')
+  }
 }
 
-const logout = () => {
-  resetUser()
+const login = () => {
+  window.location.href = config.public.apiUrl + '/user/v1/auth/login/twitter'
 }
 </script>
 
@@ -53,12 +57,11 @@ const logout = () => {
                 프로필
               </a>
             </li>
-            <!-- <li>
-              <NuxtLink to="/setting">
+            <li>
+              <a @click="setting">
                 설정
-              </NuxtLink>
-            </li> -->
-            <li><a @click="logout">로그아웃</a></li>
+              </a>
+            </li>
           </ul>
         </div>
       </template>
