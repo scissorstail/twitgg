@@ -7,5 +7,6 @@ module.exports = (app) => {
   app.group([passport.authenticate('user.jwt', { session: false })], (router) => {
     router.post('/', handleWithTx(require('./insert')));
     router.put('/:rv_no', handle(require('./update')));
+    router.get('/my-review', handle(require('./my-review')));
   });
 };

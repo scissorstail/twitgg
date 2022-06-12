@@ -19,6 +19,14 @@ const profile = () => {
   }
 }
 
+const myReview = () => {
+  if (route.path === '/my-review') {
+    window.location.reload()
+  } else {
+    navigateTo('/my-review')
+  }
+}
+
 const setting = () => {
   if (route.path === '/setting') {
     window.location.reload()
@@ -55,6 +63,11 @@ const login = () => {
             <li>
               <a @click="profile">
                 프로필
+              </a>
+            </li>
+            <li>
+              <a @click="myReview">
+                나의 리뷰
               </a>
             </li>
             <li>
