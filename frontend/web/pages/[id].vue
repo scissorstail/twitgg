@@ -1,5 +1,5 @@
 <script setup>
-import uniqBy from 'lodash/uniqBy'
+import uniqBy from 'lodash/uniqBy.js'
 
 const config = useRuntimeConfig()
 const route = useRoute()
